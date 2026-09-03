@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบรับสมัครหลักสูตรและการประชุมวิชาการ</title>
+    
+    <!-- นำเข้าฟอนต์ Sarabun -->
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ================= CSS: โทนสีชมพู ================= */
+        :root {
+            --primary-pink: #C2185B;   
+            --accent-pink: #F06292;    
+            --bg-light: #FFF5F8;       
+            --badge-bg: #FCE4EC;       
+            --text-dark: #333333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth; /* ทำให้การเลื่อนหน้าเว็บนุ่มนวล */
+        }
+
+        body { 
+            font-family: 'Sarabun', sans-serif; 
+            background-color: var(--bg-light); 
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* ส่วนหัวเว็บไซต์ */
+        header { 
+            background-color: var(--primary-pink); 
+            color: white; 
+            padding: 3rem 1rem 2rem 1rem; 
+            text-align: center; 
+        }
+
+        .logo {
+            max-width: 130px; 
+            height: auto;
+            margin-bottom: 1.5rem;
+            background-color: white; 
+            padding: 10px;
+            border-radius: 50%; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            object-fit: contain;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: #F8BBD0; 
+        }
+
+        /* แถบเมนูนำทาง (Sticky Navigation) */
+        .nav-bar {
+            position: sticky;
+            top: 0;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-bottom: 4px solid var(--accent-pink);
+        }
+
+        .nav-bar a {
+            text-decoration: none;
+            color: var(--primary-pink);
+            background-color: var(--badge-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-bar a:hover {
+            background-color: var(--primary-pink);
+            color: white;
+        }
+
+        /* ส่วนเนื้อหาหลัก */
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 0 1rem; 
+        }
+
+        .section-container {
+            margin-top: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            color: var(--primary-pink);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--accent-pink);
+        }
+
+        .grid-container { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 2rem; 
+        }
+
+        /* การออกแบบ Card */
+        .card { 
+            background: white; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05); 
+            padding: 2rem 1.5rem; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease; 
+            border-top: 4px solid var(--primary-pink); 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 8px 15px rgba(233, 30, 99, 0.15); 
+            border-top: 4px solid var(--accent-pink); 
+        }
+
+        .card-content h3 { 
+            color: var(--primary-pink); 
+            font-size: 1.2rem; 
+            margin-bottom: 0.5rem; 
+            line-height: 1.4;
+        }
+
+        .card-content .badge {
+            display: inline-block;
+            background-color: var(--badge-bg);
+            color: var(--primary-pink);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .card-content .desc {
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        /* กล่องข้อมูลเพิ่มเติม */
+        .card-info {
+            background-color: #FFF0F5;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            border: 1px dashed #F8BBD0;
+        }
+
+        .card-info p {
+            font-size: 0.9rem;
+            color: #444;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .card-info p:last-child {
+            margin-bottom: 0;
+        }
+
+        .card-info strong {
+            color: var(--primary-pink);
+            min-width: 85px; 
+        }
+
+        /* ปุ่มกด */
+        .btn { 
+            display: block; 
+            background-color: var(--primary-pink); 
+            color: white; 
+            padding: 0.75rem 1rem; 
+            text-decoration: none; 
+            border-radius: 4px; 
+            text-align: center; 
+            font-weight: 500; 
+            transition: background 0.3s, color 0.3s, border-color 0.3s; 
+            border: 1px solid var(--primary-pink);
+            margin-top: auto;
+        }
+
+        .btn:hover { 
+            background-color: white; 
+            color: var(--primary-pink);
+            border-color: var(--primary-pink);
+        }
+
+        /* ส่วนท้ายเว็บไซต์ */
+        footer { 
+            text-align: center; 
+            padding: 2rem; 
+            background-color: #222; 
+            color: white; 
+            margin-top: 3rem; 
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HTML: ส่วนหัวเว็บไซต์ -->
+    <header id="top">
+        <img src="https://placehold.co/200x200/FFFFFF/C2185B?text=LOGO" alt="โลโก้หน่วยงาน" class="logo">
+        <h1>ระบบรับสมัครหลักสูตรและการประชุมวิชาการ</h1>
+        <p>ศูนย์รวมการรับสมัครเพื่อพัฒนาศักยภาพและความเชี่ยวชาญเฉพาะด้าน</p>
+    </header>
+
+    <!-- แถบเมนูนำทาง (คลิกแล้วเลื่อนไปส่วนนั้น) -->
+    <nav class="nav-bar">
+        <a href="#specialty">หลักสูตรเฉพาะทาง</a>
+        <a href="#short-term">หลักสูตรระยะสั้น</a>
+        <a href="#practical">หลักสูตรเชิงปฏิบัติการ</a>
+        <a href="#project">โครงการอบรม</a>
+        <a href="#conference">ประชุมวิชาการ</a>
+    </nav>
+
+    <main class="container" id="main-content">
+        <!-- JavaScript จะสร้างเนื้อหาและ Card ลงที่นี่ -->
+    </main>
+
+    <footer>
+        <p>&copy; 2026 งานถ่ายทอดการพยาบาล โรงพยาบาลราชวิถี<br>
+        <a href="#top" style="color: #F8BBD0; text-decoration: none; font-size: 0.8rem; margin-top: 10px; display: inline-block;">เลื่อนกลับขึ้นด้านบน ▲</a></p>
+    </footer>
+
+    <!-- ================= JavaScript ================= -->
+    <script>
+        // ข้อมูลหลักสูตรแบ่งตามหมวดหมู่
+        const pageData = [
+            {
+                id: "specialty",
+                sectionTitle: "หลักสูตรการพยาบาลเฉพาะทาง",
+                labelDate2: "🎓 อบรม:",
+                items: [
+            {
+                title: "สาขาการพยาบาลเวชปฏิบัติการบําบัดทดแทนไต (การฟอกเลือดด้วยเครื่องไตเทียม) (หลักสูตร 18 สัปดาห์)",
+                generation: "ประจำปี 2570",
+                description: "หลักสูตรการพยาบาลเฉพาะทาง",
+                applyDate: "1 ก.พ. - 31 มี.ค. 2570",
+                eventDate: "1 พ.ค. - 31 ส.ค. 2570",
+                contact: "คุณสมหญิง โทร. 02-111-1111 ต่อ 101",
+                link: "https://link-to-google-form-1.com"
+            },
+            {
+                title: "สาขาการพยาบาลปริศัลยกรรม (หลักสูตร 16 สัปดาห์)",
+                generation: "ประจำปี 2570",
+                description: "หลักสูตรการพยาบาลเฉพาะทาง",
+                applyDate: "1 ก.พ. - 31 มี.ค. 2570",
+                eventDate: "1 มิ.ย. - 30 ก.ย. 2570",
+                contact: "คุณสมชาย โทร. 02-111-1111 ต่อ 102",
+                link: "https://link-to-google-form-2.com"
+            },
+            {
+                title: "สาขาการพยาบาลผู้ป่วยโสต ศอ นาสิก (หลักสูตร 16 สัปดาห์)",
+                generation: "รุ่นที่ 4 ประจำปี 2570",
+                description: "หลักสูตรการพยาบาลเฉพาะทาง",
+                applyDate: "15 ก.พ. - 15 เม.ย. 2570",
+                eventDate: "1 ก.ค. - 31 ต.ค. 2570",
+                contact: "งานอุบัติเหตุ โทร. 02-111-1111 ต่อ 103",
+                link: "https://link-to-google-form-3.com"
+            },
+            {
+                title: "สาขาการพยาบาลผู้ป่วยโรคหัวใจและหลอดเลือด (หลักสูตร 16 สัปดาห์)",
+                generation: "ประจำปี 2570",
+                description: "หลักสูตรการพยาบาลเฉพาะทาง",
+                applyDate: "1 มี.ค. - 30 เม.ย. 2570",
+                eventDate: "1 ส.ค. - 30 พ.ย. 2570",
+                contact: "ศูนย์มะเร็ง โทร. 02-111-1111 ต่อ 104",
+                link: "https://link-to-google-form-4.com"
+            },
+            {
+                title: "สาขาการผดุงครรภ์ (หลักสูตร 16 สัปดาห์)",
+                generation: "ประจำปี 2570",
+                description: "หลักสูตรการพยาบาลเฉพาะทาง",
+                applyDate: "1 เม.ย. - 31 พ.ค. 2570",
+                eventDate: "1 ก.ย. - 31 ธ.ค. 2570",
+                contact: "คลินิกผู้สูงอายุ โทร. 02-111-1111 ต่อ 105",
+                link: "https://link-to-google-form-5.com"
+            },
+            {
+                title: "สาขาการพยาบาลส่องกล้องระบบทางเดินอาหาร (หลักสูตร 2 เดือน)",
+                generation: "ประจำปี 2570",
+                description: "หลักสูตรการพยาบาลเฉพาะทาง",
+                applyDate: "1 พ.ค. - 30 มิ.ย. 2570",
+                eventDate: "1 ต.ค. 2570 - 31 ม.ค. 2571",
+                contact: "แผนกจิตเวช โทร. 02-111-1111 ต่อ 106",
+                link: "https://link-to-google-form-6.com"
+            },
+            {
+                title: "อนุสาขาการพยาบาลผู้ป่วยบาดแผล ออสโตมีและควบคุมการขับถ่ายไม่ได้ (หลักสูตร 2 เดือน)",
+                generation: "ประจำปี 2570",
+                description: "หลักสูตรการพยาบาลเฉพาะทาง",
+                applyDate: "15 พ.ค. - 15 ก.ค. 2570",
+                eventDate: "1 พ.ย. 2570 - 28 ก.พ. 2571",
+                contact: "ห้องคลอด โทร. 02-111-1111 ต่อ 107",
+                link: "https://link-to-google-form-7.com"
+            }
+                ]
+            },
+            {
+                id: "short-term",
+                sectionTitle: "หลักสูตรการอบรมเชิงปฏิบัติการหลักสูตรระยะสั้น",
+                labelDate2: "🎓 อบรม:",
+                items: [
+                    {
+                        title: "สาขาการพยาบาลผู้ป่วยมะเร็งที่ได้รับยาเคมีบําบัด (หลักสูตร 1 เดือน)",
+                        generation: "ประจำปี 2570",
+                        description: "หลักสูตรการอบรมเชิงปฏิบัติการหลักสูตรระยะสั้น",
+                        applyDate: "15 ก.พ. - 15 เม.ย. 2570",
+                        eventDate: "1 ก.ค. - 31 ก.ค. 2570",
+                        contact: "งานอุบัติเหตุ โทร. 02-111-1111 ต่อ 103",
+                        link: "https://link-to-form.com"
+                    }
+                ]
+            },
+            {
+                id: "practical",
+                sectionTitle: "หลักสูตรอบรมเชิงปฏิบัติการ",
+                labelDate2: "🎓 อบรม:",
+                items: [
+                    {
+                        title: "สาขาการพยาบาลผู้ป่วยแบบประคับประคอง (หลักสูตร 1 เดือน)",
+                        generation: "ประจำปี 2570",
+                        description: "หลักสูตรอบรมเชิงปฏิบัติการ",
+                        applyDate: "1 มี.ค. - 30 เม.ย. 2570",
+                        eventDate: "1 ส.ค. - 30 พ.ย. 2570",
+                        contact: "ศูนย์มะเร็ง โทร. 02-111-1111 ต่อ 104",
+                        link: "https://link-to-form.com"
+                    }
+                ]
+            },
+            {
+                id: "project",
+                sectionTitle: "โครงการอบรม",
+                labelDate2: "🎓 อบรม:",
+                items: [
+                    {
+                        title: "โครงการนมแม่ดีที่สุด (Exclusive Breastfeeding)",
+                        generation: "ประจำปี 2570",
+                        description: "โครงการอบรม",
+                        applyDate: "1 พ.ค. - 30 มิ.ย. 2570",
+                        eventDate: "1 ต.ค. 2570 - 31 ม.ค. 2571",
+                        contact: "แผนกจิตเวช โทร. 02-111-1111 ต่อ 106",
+                        link: "https://link-to-form.com"
+                    },
+                    {
+                        title: "โครงการการพัฒนาศักยภาพการพยาบาลผู้ป่วยมะเร็งนรีเวช ผ่านระบบ E-learning",
+                        generation: "ประจำปี 2570",
+                        description: "โครงการอบรม",
+                        applyDate: "15 พ.ค. - 15 ก.ค. 2570",
+                        eventDate: "1 พ.ย. 2570 - 28 ก.พ. 2571",
+                        contact: "ห้องคลอด โทร. 02-111-1111 ต่อ 107",
+                        link: "https://link-to-form.com"
+                    },
+                    {
+                        title: "โครงการพัฒนาศักยภาพพยาบาลสำเร็จใหม่",
+                        generation: "ประจำปี 2570",
+                        description: "โครงการอบรม",
+                        applyDate: "15 พ.ค. - 15 ก.ค. 2570",
+                        eventDate: "1 พ.ย. 2570 - 28 ก.พ. 2571",
+                        contact: "ห้องคลอด โทร. 02-111-1111 ต่อ 107",
+                        link: "https://link-to-form.com"
+                    },
+                    {
+                        title: "โครงการหลักสูตรอบรมระยะสั้นเพื่อพัฒนาศักยภาพพยาบาลพี่เลี้ยง (Preceptor)",
+                        generation: "ประจำปี 2570",
+                        description: "โครงการอบรม",
+                        applyDate: "15 พ.ค. - 15 ก.ค. 2570",
+                        eventDate: "1 พ.ย. 2570 - 28 ก.พ. 2571",
+                        contact: "ห้องคลอด โทร. 02-111-1111 ต่อ 107",
+                        link: "https://link-to-form.com"
+                    },
+                    {
+                        title: "โครงการอบรมการช่วยชีวิตขั้นพื้นฐานสำหรับบุคลากรทางการพยาบาล",
+                        generation: "ประจำปี 2570",
+                        description: "โครงการอบรม",
+                        applyDate: "15 พ.ค. - 15 ก.ค. 2570",
+                        eventDate: "1 พ.ย. 2570 - 28 ก.พ. 2571",
+                        contact: "ห้องคลอด โทร. 02-111-1111 ต่อ 107",
+                        link: "https://link-to-form.com"
+                    },
+                    {
+                        title: "โครงการการอบรมเชิงปฏิบัติการการประเมินและจัดการความปวด",
+                        generation: "ประจำปี 2570",
+                        description: "โครงการอบรม",
+                        applyDate: "15 พ.ค. - 15 ก.ค. 2570",
+                        eventDate: "1 พ.ย. 2570 - 28 ก.พ. 2571",
+                        contact: "ห้องคลอด โทร. 02-111-1111 ต่อ 107",
+                        link: "https://link-to-form.com"
+                    }
+                ]
+            },
+            {
+                id: "conference",
+                sectionTitle: "ประชุมวิชาการ",
+                labelDate2: "🗓️ วันที่จัดงาน:",
+                items: [
+                    {
+                        title: "ประชุมวิชาการโรงพยาบาลราชวิถี",
+                        generation: "ครั้งที่ 37 ประจำปี 2570",
+                        description: "งานประชุมวิชาการระดับชาติ",
+                        applyDate: "1 มิ.ย. - 31 ก.ค. 2570",
+                        eventDate: "1 - 3 ธ.ค. 2570",
+                        contact: "ศูนย์ไตเทียม โทร. 02-111-1111 ต่อ 108",
+                        link: "https://link-to-form.com"
+                    }
+                ]
+            }
+        ];
+
+        // ฟังก์ชันสร้างหน้าเว็บ
+        function renderPage() {
+            const mainContainer = document.getElementById('main-content');
+            
+            pageData.forEach(section => {
+                // 1. สร้างคอนเทนเนอร์ของแต่ละส่วน (Section)
+                const sectionEl = document.createElement('section');
+                sectionEl.id = section.id;
+                sectionEl.className = 'section-container';
+
+                // 2. สร้างหัวข้อส่วน (Section Title)
+                const titleEl = document.createElement('h2');
+                titleEl.className = 'section-title';
+                titleEl.textContent = section.sectionTitle;
+                sectionEl.appendChild(titleEl);
+
+                // 3. สร้าง Grid สำหรับใส่ Card
+                const gridEl = document.createElement('div');
+                gridEl.className = 'grid-container';
+
+                // 4. วนลูปสร้าง Card ตามข้อมูลในแต่ละส่วน
+                section.items.forEach(course => {
+                    const cardEl = document.createElement('div');
+                    cardEl.className = 'card';
+                    
+                    cardEl.innerHTML = `
+                        <div class="card-content">
+                            <span class="badge">${course.generation}</span>
+                            <h3>${course.title}</h3>
+                            <p class="desc">${course.description}</p>
+                            
+                            <div class="card-info">
+                                <p><strong>📅 รับสมัคร:</strong> ${course.applyDate}</p>
+                                <p><strong>${section.labelDate2}</strong> ${course.eventDate}</p>
+                                <p><strong>📞 ติดต่อ:</strong> ${course.contact}</p>
+                            </div>
+                        </div>
+                        
+                        <a href="${course.link}" target="_blank" class="btn">
+                            ดูรายละเอียดเพิ่มเติม
+                        </a>
+                    `;
+                    gridEl.appendChild(cardEl);
+                });
+
+                sectionEl.appendChild(gridEl);
+                mainContainer.appendChild(sectionEl);
+            });
+        }
+
+        window.onload = renderPage;
+    </script>
+</body>
+</html>
