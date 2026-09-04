@@ -8,7 +8,6 @@
     <meta http-equiv="Expires" content="0">
     <title>ระบบรับสมัครหลักสูตรและการประชุมวิชาการ</title>
     
-    <!-- นำเข้าฟอนต์ Sarabun -->
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -33,6 +32,7 @@
             background-color: var(--bg-light); 
             color: var(--text-dark);
             line-height: 1.6;
+            padding-bottom: 3rem; /* เพิ่มระยะห่างด้านล่างไม่ให้เนื้อหาชิดขอบจอเกินไป */
         }
 
         /* ส่วนหัวเว็บไซต์ */
@@ -214,28 +214,16 @@
             color: var(--primary-pink);
             border-color: var(--primary-pink);
         }
-
-        /* ส่วนท้ายเว็บไซต์ */
-        footer { 
-            text-align: center; 
-            padding: 2rem; 
-            background-color: #222; 
-            color: white; 
-            margin-top: 3rem; 
-            font-size: 0.9rem;
-        }
     </style>
 </head>
 <body>
 
-    <!-- HTML: ส่วนหัวเว็บไซต์ -->
     <header id="top">
         <img src="https://i.postimg.cc/PJ2P5QMY/Logo-rong-phyabal-ra-chw-th.png" alt="โลโก้หน่วยงาน" class="logo">
         <h1>ระบบรับสมัครหลักสูตรและการประชุมวิชาการ</h1>
         <p>ศูนย์รวมการรับสมัครเพื่อพัฒนาศักยภาพและความเชี่ยวชาญเฉพาะด้าน</p>
     </header>
 
-    <!-- แถบเมนูนำทาง (คลิกแล้วเลื่อนไปส่วนนั้น) -->
     <nav class="nav-bar">
         <a href="#specialty">หลักสูตรเฉพาะทาง</a>
         <a href="#short-term">หลักสูตรระยะสั้น</a>
@@ -245,14 +233,8 @@
     </nav>
 
     <main class="container" id="main-content">
-        <!-- JavaScript จะสร้างเนื้อหาและ Card ลงที่นี่ -->
-    </main>
+        </main>
 
-    <footer>
-
-    </footer>
-
-    <!-- ================= JavaScript ================= -->
     <script>
         // ข้อมูลหลักสูตรแบ่งตามหมวดหมู่
         const pageData = [
@@ -471,7 +453,7 @@
                             <div class="card-info">
                                 <p><strong>📅 รับสมัคร:</strong> ${course.applyDate}</p>
                                 <p><strong>${section.labelDate2}</strong> ${course.eventDate}</p>
-                                <p><strong>📞 ติดต่อ:</strong> ${course.contact}</p>
+                                <p><strong>📞 ติดต่อ:</strong> ${course.contact || "-"}</p>
                             </div>
                         </div>
                         
