@@ -490,5 +490,22 @@
 
         window.onload = renderPage;
     </script>
+
+    <script>
+function sendHeightToParent() {
+    // คำนวณความสูงทั้งหมดของเนื้อหา
+    const height = document.documentElement.scrollHeight;
+    // ส่งข้อมูลกลับไปยังเว็บหลัก
+    window.parent.postMessage({ type: 'resizeIframe', height: height }, '*');
+}
+
+// ส่งค่าความสูงเมื่อโหลดหน้าเว็บเสร็จ
+window.addEventListener('load', sendHeightToParent);
+
+// ส่งค่าความสูงใหม่หากเนื้อหามีการขยายหรือยืดหยุ่น (เช่น กดเปิดเมนูย่อย)
+const observer = new ResizeObserver(sendHeightToParent);
+observer.observe(document.body);
+</script>
+    
 </body>
 </html>
