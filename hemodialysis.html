@@ -16,24 +16,36 @@
         body { font-family: 'Sarabun', sans-serif; }
     </style>
 
-	<style>
-  .badge-blink {
-    display: inline-block;
-    margin-left: 6px;
-    padding: 1px 6px;
-    font-size: 12px;
-    font-weight: bold;
-    color: #ffffff;
-    background-color: #e11d48;
-    border-radius: 4px;
-    animation: blink-anim 1s infinite;
+	/* สร้างแอนิเมชันการกระพริบ */
+<style>	
+@keyframes blink-text {
+  0%, 100% {
+    opacity: 1;
   }
+  50% {
+    opacity: 0; /* ซ่อนข้อความชั่วคราวเพื่อให้ดูเหมือนกระพริบ */
+  }
+}
 
-  @keyframes blink-anim {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.15; }
-  }
-</style>
+/* สไตล์สำหรับคำว่า NEW หรือ UPDATE แบบไม่มีกรอบ */
+.text-new {
+  color: #e60000;          /* สีแดง (เปลี่ยนสีได้ตามต้องการ) */
+  font-weight: bold;       /* ตัวหนา */
+  font-size: 0.85em;       /* ขนาดเล็กกว่าข้อความหลักเล็กน้อย */
+  margin-left: 6px;        /* เว้นระยะห่างจากข้อความด้านหน้า */
+  vertical-align: super;   /* ยกตัวอักษรขึ้นเล็กน้อย (ถ้าต้องการให้อยู่ระดับเดียวกันให้ลบบรรทัดนี้ออก) */
+  animation: blink-text 1s infinite; /* กระพริบทุกๆ 1 วินาที ตลอดเวลา */
+}
+
+/* ตัวอย่างสีสำหรับคำว่า UPDATE (ถ้าต้องการแยกสี) */
+.text-update {
+  color: #0066cc;          /* สีน้ำเงิน */
+  font-weight: bold;
+  font-size: 0.85em;
+  margin-left: 6px;
+  animation: blink-text 1.2s infinite;
+}
+	</style>
 <style>
   .bell-blink {
     display: inline-flex;
@@ -132,7 +144,7 @@
                             <td class="px-6 py-4 text-black-700 ">สถานที่สอบ ห้องประชุมพิบูลสงคราม อาคารเฉลิมพระเกียรติ ชั้น 12 โรงพยาบาลราชวิถี</td>
                         </tr>
                         <tr class="hover:bg-pink-50 transition duration-150">
-                            <td class="px-6 py-4 text-pink-700 font-semibold">ประกาศรายชื่อผู้มีสิทธิ์สอบสัมภาษณ์<span class="badge-blink">Next session</span></p></td>
+                            <td class="px-6 py-4 text-pink-700 font-semibold">ประกาศรายชื่อผู้มีสิทธิ์สอบสัมภาษณ์<span class="text-new">NEW</span></td>
                             <td class="px-6 py-4 whitespace-nowrap text-pink-700 font-semibold">4 ธันวาคม 2569</td>
                             <td class="px-6 py-4">
                                 <a text="#" target="_blank" class="text-pink-700 hover:text-blue-800 font-semibold hover:underline break-all">รอประกาศ<span class="bell-blink" title="อัปเดตใหม่">
